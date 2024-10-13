@@ -1,1 +1,123 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tasty Track - User Login</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+		}
+		.container {
+			width: 50%;
+			margin: auto;
+			padding: 20px;
+			border: 1px solid #ccc;
+			border-radius: 10px;
+			box-shadow: 0px 0px 10px #ccc;
+			margin-top: 50px;
+		}
+		.input-group {
+			margin: 10px 0;
+		}
+		label {
+			display: block;
+			margin-bottom: 5px;
+		}
+		input[type="text"], input[type="password"] {
+			width: 100%;
+			padding: 10px;
+			margin-bottom: 10px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+		}
+		button {
+			padding: 10px 20px;
+			background-color: #28a745;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		button:hover {
+			background-color: #218838;
+		}
+		.log-jobs, .add-log-form {
+			margin-top: 20px;
+		}
+	</style>
+</head>
+<body>
+
+<div class="container">
+	<h1>Tasty Track | Login</h1>
+	<div class="input-group">
+		<label for="lastName">Username:</label>
+		<input type="text" id="lastName" placeholder="Enter Username">
+	</div>
+	<div class="input-group">
+		<label for="password">Password:</label>
+		<input type="password" id="password" placeholder="Enter Password">
+	</div>
+	<button onclick="login()">Login</button>
+      <div id="loginDisplay">
+            <p></p>           
+      </div>
+      <button hidden type="button" id="redirect" onclick="window.location.href='googleMapAPI.html'";></button>
+	<div id="response"></div>
+</div>
+
+
+
+<!-- Import external JavaScript file -->
+<script src="getJSONData.js"></script>
+<script src="putJSONData.js"></script>
+
+<script>
+let currentUser = null;  // Track the logged-in user
+let jsonData = null;     // Store the fetched JSON data
+
+// Function to log in the user
+const login = async () => {
+	const userName = document.getElementById('lastName').value;
+	const password = document.getElementById('password').value;
+
+	try {
+		// Fetch and parse the JSON data
+		const rawData = await getJSONData(); // Fetch as string
+		console.log('Fetched raw data:', rawData);
+
+		// Check if the fetched data is a string, and parse it if necessary
+		if (typeof rawData === 'string') {
+			jsonData = JSON.parse(rawData);  // Parse the JSON string into an array
+		} else {
+			jsonData = rawData;  // If it's already an object, no need to parse
+		}
+
+		console.log('Parsed jsonData:', jsonData);
+
+		// Find the user by last name and password
+		currentUser = jsonData.find(user => 
+			user.Username &&
+			user.Username.toLowerCase() === userName.toLowerCase() &&
+			user.Password === password
+		);
+
+		if (currentUser) {
+			document.getElementById('loginDisplay').innerHTML = `<h2>Welcome, ${currentUser.Username}</h2>`;
+                  document.getElementById('redirect').removeAttribute("hidden");
+                  document.getElementById('redirect').innerHTML = `<button>Redirect</button>`;			
+		} else {
+			document.getElementById('loginDisplay').innerHTML = "Invalid last name or password.";
+		}
+	} catch (error) {
+		document.getElementById('loginDisplay').innerHTML = "Error fetching data.";
+		console.error("Error fetching data:", error);
+	}
+};
+
+</script>
+
+</body>
+</html>
