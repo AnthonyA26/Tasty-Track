@@ -71,8 +71,8 @@
 
 
 <!-- Import external JavaScript file -->
-<script src="getData.js"></script>
-<script src="putData.js"></script>
+<script src="../Backend/getData.js"></script>
+<script src="../Backend/putData.js"></script>
 
 <script>
 let currentUser = null;  // Track the logged-in user
@@ -85,7 +85,7 @@ const login = async () => {
 
 	try {
 		// Fetch and parse the JSON data
-		const rawData = await getJSONData(); // Fetch as string
+		const rawData = await getData(); // Fetch as string
 		console.log('Fetched raw data:', rawData);
 
 		// Check if the fetched data is a string, and parse it if necessary

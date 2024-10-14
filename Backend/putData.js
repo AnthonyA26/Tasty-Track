@@ -1,11 +1,11 @@
-const putJSONData = async (newData) => {
+const putData = async (newData) => {
   const binId = '670a9963acd3cb34a895af02'; 
   const apiKey = '$2a$10$UzQL6aYRSZ/kDbQqqat29eU9xGwtgF1bdMA2kF/32mcP2X.BtnbS6'; 
   const url = "https://api.jsonbin.io/v3/b/" + binId;
 
   try {
 	// Step 1: Fetch existing data using getJSONData.js
-	let existingData = await getJSONData();
+	let existingData = await getData();
 
 	// Log the existing data for debugging purposes
 	console.log('Fetched existing data:', existingData);
