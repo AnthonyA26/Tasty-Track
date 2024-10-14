@@ -53,12 +53,12 @@
 <div class="container">
 	<h1>Tasty Track | Login</h1>
 	<div class="input-group">
-		<label for="lastName">Username:</label>
-		<input type="text" id="lastName" placeholder="Enter Username">
+		<label for="userName">Username:</label>
+		<input type="text" id="userName" placeholder="Enter Username">
 	</div>
 	<div class="input-group">
-		<label for="password">Password:</label>
-		<input type="password" id="password" placeholder="Enter Password">
+		<label for="passWord">Password:</label>
+		<input type="password" id="passWord" placeholder="Enter Password">
 	</div>
 	<button onclick="login()">Login</button>
       <div id="loginDisplay">
@@ -81,7 +81,7 @@ let jsonData = null;     // Store the fetched JSON data
 // Function to log in the user
 const login = async () => {
 	const userName = document.getElementById('lastName').value;
-	const password = document.getElementById('password').value;
+	const passWord = document.getElementById('password').value;
 
 	try {
 		// Fetch and parse the JSON data
@@ -99,9 +99,9 @@ const login = async () => {
 
 		// Find the user by last name and password
 		currentUser = jsonData.find(user => 
-			user.Username &&
-			user.Username.toLowerCase() === userName.toLowerCase() &&
-			user.Password === password
+			user.userName &&
+			user.userName.toLowerCase() === userName.toLowerCase() &&
+			user.passWord === password
 		);
 
 		if (currentUser) {
