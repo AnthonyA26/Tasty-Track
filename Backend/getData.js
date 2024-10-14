@@ -1,10 +1,10 @@
 const getData = async () => {
 
 // REPLACE YOUR_BIN_ID with the actual ID of your bin
-const binId = '670a9963acd3cb34a895af02'; 
+const binId = '66fec493ad19ca34f8b22951'; 
 
 // Replace YOUR_API_KEY with your JSONbin.io API key
-const apiKey = '$2a$10$UzQL6aYRSZ/kDbQqqat29eU9xGwtgF1bdMA2kF/32mcP2X.BtnbS6'; 
+const apiKey = '$2a$10$VRopoeDWcEGwU7qHPVi4yOX3EZkLqU0fL/MH8QP5uPFelKdMhQyXK'; 
 
 const url = "https://api.jsonbin.io/v3/b/"+binId+"?meta=false";
 //const url = ”https://api.jsonbin.io/v3/b/”+binId+"?meta=false";
