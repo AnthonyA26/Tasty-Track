@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, intitial-scale=1">
+
         <style>
             html, body {
                 height: 100%;
@@ -9,17 +11,53 @@
                 padding: 0;
             }
 
-            #googleMap {
-                height: 100%;
-                width: 100%;
+            #googleMap{
+                left: 400px;
+                height: 100vh;
             }
+            
+            h1 {
+                color: #006c34;
+                font-size: 60px;
+                text-align: center;
+            }
+
+
+            header {
+                background-color: #f7f7f2;
+                padding: 5px;
+                width: 100;
+            }
+
+            nav {
+                width: 100%;
+                background-color: #cf8764;
+                padding: 1px;
+                border: 1px solid #555;
+            }
+
+            #leftDiv {
+                width: 300px;
+                height: 100vh;
+                position: relative;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            
 
         </style>
     </head>
 
     <body>
 
-        <h1>Google API Test</h1>
+        <header> 
+            <h1> Tasty Track </h1>
+        </header>
+
+        <nav>
+            <h4>profile</h4>
+        </nav>
 
         <div id="googleMap"> </div>
 
@@ -27,10 +65,10 @@
 
         var markersArray = []; //to store markers 
 
-    function initMap() {
-        var map = new google.maps.Map(document.getElementById("googleMap"), {
-            zoom: 15,
-            gestureHandling: 'greedy' //allows the map to scroll
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById("googleMap"), {
+                zoom: 15,
+                gestureHandling: 'greedy' //allows the map to scroll
         });
 
         if(navigator.geolocation) {
