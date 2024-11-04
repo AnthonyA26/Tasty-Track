@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,7 +13,7 @@
             }
 
             #googleMap{
-                left: 400px;
+                left: 0px;
                 height: 100vh;
             }
             
@@ -29,22 +30,44 @@
                 width: 100;
             }
 
-            nav {
+            * {box-sizing: border-box}
+
+            .navbar {
                 width: 100%;
                 background-color: #cf8764;
-                padding: 1px;
-                border: 1px solid #555;
+                overflow: auto;
             }
 
-            #leftDiv {
-                width: 300px;
-                height: 100vh;
-                position: relative;
-                padding: 20px;
-                box-sizing: border-box;
+            .navbar a {
+                float: left;
+                padding: 12px;
+                color: black;
+                width: 25%;
+                text-align: center;
+                text-decoration: none;
+                font-size: 17px;
+                
             }
 
-            
+            .navbar a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+
+            .navbar a.active {
+                background-color: #04AA6D;
+                color: white;
+            }
+
+            @media screen and (max-width: 500px) {
+                .navbar a {
+                    float: none;
+                    display: block;
+                    width: 100%;
+                    text-align: left;
+                }
+            }
+
 
         </style>
     </head>
@@ -55,13 +78,19 @@
             <h1> Tasty Track </h1>
         </header>
 
-        <nav>
-            <h4>profile</h4>
-        </nav>
+        <div class="navbar">
+            <a class="" href="home.html">Home</a>
+            <a href="mylikes">My Likes</a>
+            <a href="AboutUs.html">About Us</a>
+            <a href="profile">Profile</a>
+        </div>
 
         <div id="googleMap"> </div>
 
         <script> 
+
+
+
 
         var markersArray = []; //to store markers 
 
