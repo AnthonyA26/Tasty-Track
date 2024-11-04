@@ -1,10 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<h1>insert header</h1> <!--INSERT HEADER CODE HERE WHEN READY-->
-</head>
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, intitial-scale=1">
 
-<body style="background-color:#f7f7f2;">   <!--NEED TEXT COLOR CODES, FONT NAMES, AND FONT SIZES-->
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            
+            h1 {
+                color: #006c34;
+                font-size: 60px;
+                text-align: center;
+            }
+
+            header {
+                background-color: #f7f7f2;
+                padding: 5px;
+                width: 100;
+            }
+
+            * {box-sizing: border-box}
+
+            .navbar {
+                width: 100%;
+                background-color: #cf8764;
+                overflow: auto;
+            }
+
+            .navbar a {
+                float: left;
+                padding: 12px;
+                color: black;
+                width: 25%;
+                text-align: center;
+                text-decoration: none;
+                font-size: 17px;
+                
+            }
+
+            .navbar a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+
+            .navbar a.active {
+                background-color: #04AA6D;
+                color: white;
+            }
+
+            @media screen and (max-width: 500px) {
+                .navbar a {
+                    float: none;
+                    display: block;
+                    width: 100%;
+                    text-align: left;
+                }
+            }
+
+
+        </style>
+    
+</head>
+<body> 
+     <header> 
+            <h1> Tasty Track </h1>
+        </header>
+
+        <div class="navbar">
+            <a class="" href="home.html">Home</a>
+            <a href="mylikes">My Likes</a>
+            <a href="AboutUs.html">About Us</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    
     <div style="text-align:center">
         <h1 style="font-size: 75px; color: green;">ABOUT US</h1> <!--CHANGE GREEN TO HEX CODE-->
         <p style="font-size: 20px; color: gray;">At <i>Tasty Track</i>, we believe that finding great food should be simple and fun.
