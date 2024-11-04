@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Move Box</title>
+<style>
+	body, html {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		overflow: hidden; /* Ensure no scrollbars on the body */
+	}
+	#map {
+		height: 80%;
+		width: 100%;
+		position: absolute;
+		top: 20;
+		left: 0;
+		z-index: 0;
+	}
+	#container {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: 1;
+		pointer-events: none; /* Allow mouse events to pass through to the map */
+	}
+#moveBoxButton {
+		position: absolute;
+		top: 10px;
+		left: 50%; /* Center horizontally */
+		transform: translateX(-50%); /* Adjust to ensure it's perfectly centered */
+		z-index: 2;
+		pointer-events: auto;
+		background-color: green;
+		color: white;
+		height: 60px;
+		width: 120px;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+
+	#box {
+		position: absolute;
+		background-color: #f7f7f2;;
+		width: 40%;
+		height: calc(100% - 20px);
+		top: 0px;
+		bottom: 10px;
+		left: -60%;
+		transition: left 1s ease-in-out;
+		padding: 20px;
+		color: green;
+		overflow: auto;
+		pointer-events: auto; /* Ensure the box is scrollable */
+	}
+</style>
+</head>
+<body>
+	<header> 
+		<h1> Tasty Track </h1>
+	</header>
+
+	<nav>
+		<h4>profile</h4>
+	</nav>
+
+	<div id="googleMap"> </div>
+
+<button id="moveBoxButton" onclick="moveBox()">Move Box</button>
+
+<div id="container"></div>
+
+<div id="map"></div>
+
+<script>
+	var markersArray = []; //to store markers 
+function initMap() {
+	var map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 12
+	});
+
+	// Try HTML5 geolocation.
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			var pos = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude
+			};
+
+			var marker = new google.maps.Marker({
+				position: pos,
+				map: map
+			});
+
+			map.setCenter(pos);
+		}, function() {
+			handleLocationError(true, map.getCenter());
+		});
+	} else {
+		// Browser doesn't support Geolocation
+		handleLocationError(false, map.getCenter());
+	}
+}
+
+function handleLocationError(browserHasGeolocation, pos) {
+	var infoWindow = new google.maps.InfoWindow({
+		position: pos,
+		content: browserHasGeolocation ?
+			'Error: The Geolocation service failed.' :
+			'Error: Your browser doesn\'t support geolocation.'
+	});
+	infoWindow.open(map);
+}
+
+// Function to create and populate the box
+function createBox() {
+	var container = document.getElementById('container');
+	var boxContents = `Visualize geospatial data to help make decisions and improve operations<br><br>
+	View and analyze geospatial data from multiple projects on a Google map to facilitate better decisions, manage and dispatch your field to the right locations, and streamline asset maintenance.`;
+
+	var box = document.createElement('div');
+	box.id = 'box';
+	box.innerHTML = boxContents;
+
+	container.appendChild(box);
+}
+
+function moveBox() {
+	var box = document.getElementById('box');
+	var moveBoxButton = document.getElementById('moveBoxButton');
+	if (box.style.left === '-40%' || box.style.left === '') {
+		box.style.left = '0px';
+		moveBoxButton.textContent = 'Move Back';
+	} else {
+		box.style.left = '-40%';
+		moveBoxButton.textContent = 'Move Box';
+	}
+}
+
+// Create the box when the page loads
+window.onload = createBox;
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-Ep4rBtq2tecPJgVqHYS9vt6vKwFLFuE&callback=initMap" async defer></script>
+
+</body>
+</html>
+
