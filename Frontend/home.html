@@ -1,28 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, intitial-scale=1">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, intitial-scale=1" />
 
         <style>
-            html, body {
+            html,
+            body {
                 height: 100%;
                 margin: 0;
                 padding: 0;
             }
 
-            #googleMap{
+            #googleMap {
                 left: 0px;
                 height: 100vh;
             }
-            
+
             h1 {
                 color: #006c34;
                 font-size: 60px;
                 text-align: center;
             }
-
 
             header {
                 background-color: #f7f7f2;
@@ -30,7 +29,10 @@
                 width: 100;
             }
 
-            * {box-sizing: border-box}
+            /* Nav Bar */
+            * {
+                box-sizing: border-box;
+            }
 
             .navbar {
                 width: 100%;
@@ -46,7 +48,6 @@
                 text-align: center;
                 text-decoration: none;
                 font-size: 17px;
-                
             }
 
             .navbar a:hover {
@@ -55,7 +56,7 @@
             }
 
             .navbar a.active {
-                background-color: #04AA6D;
+                background-color: #04aa6d;
                 color: white;
             }
 
@@ -68,74 +69,134 @@
                 }
             }
 
+            /* Side Panel */
+            .sidenav {
+                height: 100%;
+                width: 0;
+                position: fixed;
+                z-index: 1;
+                top: 10;
+                left: 0;
+                background-color: #f7f7f2;
+                overflow-x: hidden;
+                transition: 0.5s;
+                padding-top: 50px;
+            }
 
+            .sidenav a {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 20px;
+                color: #111;
+                display: block;
+                transition: 0.3s;
+            }
+
+            
+            .sidebar a:hover {
+                color: #f7f7f2;
+            }
+
+            .sidenav .closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 20px;
+                margin-left: 50px;
+            }
+
+            #googleMap {
+                transition: margin-left 0.5s;
+                padding: 16px;
+            }
+
+            @media screen and (max-height: 450px) {
+                .sidenav {
+                    padding-top: 15px;
+                }
+                .sidenav a {
+                    font-size: 18px;
+                }
+            }
         </style>
     </head>
 
     <body>
-
-        <header> 
-            <h1> Tasty Track </h1>
+        <header>
+            <h1>Tasty Track</h1>
         </header>
 
         <div class="navbar">
             <a class="" href="home.html">Home</a>
-            <a href="mylikes">My Likes</a>
+            <a onclick="openNav()">Saved</a>
             <a href="AboutUs.html">About Us</a>
             <a href="profile">Profile</a>
         </div>
 
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#">Example1</a>
+            <a href="#">Example2</a>
+        </div>
+
         <div id="googleMap"> </div>
 
-        <script> 
+        <script>
+            /* Side Panel */
 
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "40%";
+                document.getElementById("googleMap").style.marginLeft = "250px";
+            }
 
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+                document.getElementById("googleMap").style.marginLeft = "0";
+            }
 
+            /* Goodle Map */
+            var markersArray = []; //to store markers
 
-        var markersArray = []; //to store markers 
+            function initMap() {
+                var map = new google.maps.Map(document.getElementById("googleMap"), {
+                    zoom: 15,
+                    gestureHandling: "greedy", //allows the map to scroll
+                });
 
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById("googleMap"), {
-                zoom: 15,
-                gestureHandling: 'greedy' //allows the map to scroll
-        });
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function (position) {
+                            var userLocation = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude,
+                            };
 
-        if(navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function(position) {
-                    var userLocation = {
-                        lat: position.coords.latitude, 
-                        lng: position.coords.longitude
-                    };
+                            map.setCenter(userLocation);
 
-                    map.setCenter(userLocation);
+                            var marker = new google.maps.Marker({
+                                position: userLocation,
+                                map: map,
+                            });
 
-                    var marker = new google.maps.Marker({
-                        position: userLocation, 
-                        map: map
-                    });
+                            markersArray.push(marker);
 
-                    markersArray.push(marker);
+                            function deleteMarker(index) {
+                                if (markersArray[index]) {
+                                    markersArray[index].setMap(null);
 
-                    function deleteMarker(index){
-                        if(markersArray[index]) {
-                            markersArray[index].setMap(null);
-
-                            markersArray.splice(index, 1);
+                                    markersArray.splice(index, 1);
+                                }
+                            }
+                        },
+                        function () {
+                            alert("Geolocation failed or permission denied.");
                         }
-                    }
-                },
-                    function() {
-                        alert("Geolocation failed or permission denied.");
-                    }
-            );
-                
-        }
-    } 
-    
+                    );
+                }
+            }
         </script>
 
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-Ep4rBtq2tecPJgVqHYS9vt6vKwFLFuE&callback=initMap" async defer></script>
-
     </body>
 </html>
+
