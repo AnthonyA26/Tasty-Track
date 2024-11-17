@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, intitial-scale=1" />
+
+        <style>
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+            }
+
+            #googleMap {
+                left: 0px;
+                height: 100vh;
+            }
+
+            h1 {
+                color: #006c34;
+                font-size: 60px;
+                text-align: center;
+            }
+
+            header {
+                background-color: #f7f7f2;
+                padding: 5px;
+                width: 100;
+            }
+            /* Profile Elements - no map needed on profile page*/
+            .container {
+                width: 80%;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px #ccc;
+                margin-top: 50px;
+            }
+
+            .input-group {
+			margin: 10px 0;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            input[type="text"], input[type="password"] {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+            button {
+			padding: 10px 20px;
+			background-color: #28a745;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		    }
+            .loginButton 
+            {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                height: 200px;
+                width: 300px;
+            }
+            .logoutButton
+            {
+                float: right;
+                height: 80px;
+                width: 100px;
+                margin: 40px; 
+            }
+
+            /* Nav Bar */
+            * {
+                box-sizing: border-box;
+            }
+
+            .navbar {
+                width: 100%;
+                background-color: #cf8764;
+                overflow: auto;
+            }
+
+            .navbar a {
+                float: left;
+                padding: 12px;
+                color: black;
+                width: 25%;
+                text-align: center;
+                text-decoration: none;
+                font-size: 17px;
+            }
+
+            .navbar a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+
+            .navbar a.active {
+                background-color: #04aa6d;
+                color: white;
+            }
+
+            @media screen and (max-width: 500px) {
+                .navbar a {
+                    float: none;
+                    display: block;
+                    width: 100%;
+                    text-align: left;
+                }
+            }
+
+            /* Side Panel */
+            .sidenav {
+                height: 100%;
+                width: 0;
+                position: fixed;
+                z-index: 1;
+                top: 10;
+                left: 0;
+                background-color: #f7f7f2;
+                overflow-x: hidden;
+                transition: 0.5s;
+                padding-top: 50px;
+            }
+
+            .sidenav a {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 20px;
+                color: #111;
+                display: block;
+                transition: 0.3s;
+            }
+
+            
+            .sidebar a:hover {
+                color: #f7f7f2;
+            }
+
+            .sidenav .closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 20px;
+                margin-left: 50px;
+            }
+
+            #googleMap {
+                transition: margin-left 0.5s;
+                padding: 16px;
+            }
+
+            @media screen and (max-height: 450px) {
+                .sidenav {
+                    padding-top: 15px;
+                }
+                .sidenav a {
+                    font-size: 18px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <h1>Tasty Track</h1>
+        </header>
+
+       
+        <div class="navbar">
+            <a class="" href="home.html">Home</a>
+            <!--<a onclick="openNav()">Saved</a>-->
+            <a href="SearchAndSave.html">View Resturants</a>
+            <a href="AboutUs.html">About Us</a>
+            <a href="userProfile.html">Profile</a>
+        </div>
+
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#">Example1</a>
+            <a href="#">Example2</a>
+        </div>
+
+        <div hidden id="profileContainer" class="container">
+            <div id="loginDisplay">
+
+            </div>
+            <div class="input-group">
+                <label for="changeUserName"> Change Username:</label>
+                <input type="text" id="changeUserName" placeholder="Change your Username">
+            </div>
+            <div class="input-group">
+                <label for="changePassword">Change Password:</label>
+                <input type="password" id="changePassword" placeholder="Change your Password">
+            </div>
+            <div class="input-group">
+                <label for="changeEmail">Change Email:</label>
+                <input type="text" id="changeEmail" placeholder="Change your Email">
+            </div>
+            <button onclick="modifyUserInformation()">Change User Data</button>   
+        </div>
+
+        <div id="loginOrOutButtons">
+            <button class="button loginButton" id="loginButton" onclick="window.location.href='login.html'";>Login</button>
+            <button hidden class="button logoutButton" id="logoutButton" onclick="window.location.href='home.html'";>Log Out</button>
+        </div>
+
+        
+        <!-- Import external JavaScript file -->
+        <script src="../Backend/getData.js"></script>
+        <script src="../Backend/putData.js"></script>
+
+        <script>
+
+            var rawData = sessionStorage.getItem("currentUser");
+            currentUser = JSON.parse(rawData);  // Parse the JSON string into an array
+            document.getElementById('loginDisplay').innerHTML = `<h2>Welcome, ${currentUser.userName}</h2>`;
+
+            if(currentUser)
+            {
+                document.getElementById('profileContainer').removeAttribute("hidden");
+                document.getElementById('loginButton').setAttribute("hidden", "true");
+                document.getElementById('logoutButton').removeAttribute("hidden");
+            }
+
+
+    // function to modify User Information (username, password, email)
+    async function modifyUserInformation() {
+	  try {
+		const user = currentUser;
+
+		const modifiedUserObject = {
+		  userName: document.getElementById('changeUsername').value,
+		  passWord: document.getElementById('changePassword').value,
+		  email: document.getElementById('changeEmail').value,
+
+		};
+
+        const jsonDataString = await getJSONData();
+		const jsonData = JSON.parse(jsonDataString);
+
+		// Modify the selected user object based on the index
+		if (user) {
+		  jsonData.user = modifiedUserObject;
+
+		  // Display the updated JSON array
+		  document.body.innerHTML += '<div class="json-object"><h3>User Modified</h3><pre>' + JSON.stringify(jsonData[user], null, 2) + '</pre></div>';
+
+		  // Save the updated JSON array
+		  await saveJSONData(jsonData);
+
+		  // Fetch and display the updated data
+		  fetchDataAndDisplay();
+		} else {
+		  console.error('Invalid index for modification');
+		}
+	  } catch (error) {
+		console.error('Error modifying user information:', error);
+	  }
+	}
+    
+    async function saveJSONData(data) {
+	  const responsePut = await fetch('https://api.jsonbin.io/v3/b/670a9963acd3cb34a895af02', {
+		method: 'PUT',
+		headers: {
+		  'Content-Type': 'application/json',
+		  'X-Master-Key': '$2a$10$UzQL6aYRSZ/kDbQqqat29eU9xGwtgF1bdMA2kF/32mcP2X.BtnbS6',
+		},
+		body: JSON.stringify(data),
+	  });
+
+	  if (!responsePut.ok) {
+		console.error('Failed to save data:', responsePut.statusText);
+	  }
+	}
+
+        </script>    
+    </body>    
