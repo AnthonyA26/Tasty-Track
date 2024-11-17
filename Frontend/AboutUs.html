@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, intitial-scale=1" />
+
+        <style>
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #googleMap {
+                left: 0px;
+                height: 100vh;
+            }
+
+            h1 {
+                color: #006c34;
+                font-size: 60px;
+                text-align: center;
+            }
+
+            header {
+                background-color: #f7f7f2;
+                padding: 5px;
+                width: 100;
+            }
+
+            /* Nav Bar */
+            * {
+                box-sizing: border-box;
+            }
+
+            .navbar {
+                width: 100%;
+                background-color: #cf8764;
+                overflow: auto;
+            }
+
+            .navbar a {
+                float: left;
+                padding: 12px;
+                color: black;
+                width: 25%;
+                text-align: center;
+                text-decoration: none;
+                font-size: 17px;
+            }
+
+            .navbar a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+
+            .navbar a.active {
+                background-color: #04aa6d;
+                color: white;
+            }
+
+            @media screen and (max-width: 500px) {
+                .navbar a {
+                    float: none;
+                    display: block;
+                    width: 100%;
+                    text-align: left;
+                }
+            }
+
+            /* Side Panel */
+            .sidenav {
+                height: 100%;
+                width: 0;
+                position: fixed;
+                z-index: 1;
+                top: 10;
+                left: 0;
+                background-color: #f7f7f2;
+                overflow-x: hidden;
+                transition: 0.5s;
+                padding-top: 50px;
+            }
+
+            .sidenav a {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 20px;
+                color: #111;
+                display: block;
+                transition: 0.3s;
+            }
+
+            
+            .sidebar a:hover {
+                color: #f7f7f2;
+            }
+
+            .sidenav .closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 20px;
+                margin-left: 50px;
+            }
+
+            #googleMap {
+                transition: margin-left 0.5s;
+                padding: 16px;
+            }
+
+            @media screen and (max-height: 450px) {
+                .sidenav {
+                    padding-top: 15px;
+                }
+                .sidenav a {
+                    font-size: 18px;
+                }
+            }
+        </style>
+    </head>
+
+<body style="background-color:#f7f7f2;">   <!--NEED TEXT COLOR CODES, FONT NAMES, AND FONT SIZES-->
+        <header>
+            <h1>Tasty Track</h1>
+        </header>
+
+        <div class="navbar">
+            <a class="" href="home.html">Home</a>
+            <!--<a onclick="openNav()">Saved</a>-->
+            <a href="SearchAndSave.html">View Resturants</a>
+            <a href="AboutUs.html">About Us</a>
+            <a href="profile">Profile</a>
+        </div>
+=
+    <div style="text-align:center">
+        <h1 style="font-size: 75px; color: green;">ABOUT US</h1> <!--CHANGE GREEN TO HEX CODE-->
+        <p style="font-size: 20px; color: gray;">At <i>Tasty Track</i>, we believe that finding great food should be simple and fun.
+             Our mission is to help food lovers discover<br> the best dining experiences around them. 
+             Whether it’s a hidden gem, or a popular local favorite. With personalized <br>recommendations, 
+             restaurant tracking, and a community of fellow food enthusiasts, <i>Tasty Track</i> makes exploring 
+             new cuisines easy.</p>
+
+        <p style="font-size: 20px; color: gray;">We’re passionate about bringing people together through food, 
+            and our site is designed to inspire your culinary adventures. <br>From discovering unique restaurants, 
+            to sharing dining experiences with your friends and family, <i>Tasty Track</i> is here to <br>guide you every 
+            step of the way as we explore the world of food together.
+        </p>     
+
+        <img src="ChefHat.png" alt="Chef Hat" style="width:355px;height:355px;">
+    </div>
+</body>
+
