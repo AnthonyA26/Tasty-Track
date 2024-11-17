@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search/Add</title>
+  <style>
+	/* Reset default styles */
+	html,
+    body{
+      height: 100%;
+	  margin: 0;
+	  padding: 0;
+	  box-sizing: border-box;
+	}
+
+	/* Full page layout */
+	body, html {
+	  height: 100%;
+	  width: 100%;
+	  display: flex;
+	  flex-direction: column;
+	}
+
+	h1 {
+                color: #006c34;
+                font-size: 60px;
+                text-align: center;
+            }
+
+            header {
+                background-color: #f7f7f2;
+                padding: 5px;
+                width: 100;
+            }
+
+	/* Container for the main content */
+	.content {
+	  display: flex;
+	  flex-grow: 1;
+	  height: calc(100% - 400px); /* Remaining height below header */
+	}
+
+	/* Left panel styling */
+	.left-panel {
+	  width: 400px;
+	  background-color: #f4f4f4;
+	  height: 100%;
+	  padding: 20px;
+	  display: flex;
+	  flex-direction: column;
+	  padding-top: 0; /* Remove top padding to place tabs at the very top */
+	}
+
+	/* Tabs container */
+	.tabs {
+	  display: flex;
+	  width: 100%;
+	}
+
+	/* Individual tab buttons */
+	.tab {
+	  flex: 1;
+	  padding: 10px;
+	  cursor: pointer;
+	  text-align: center;
+	  background-color: #ddd;
+	  border: 1px solid #ccc;
+	  font-weight: bold;
+	}
+
+	/* Active tab style */
+	.tab.active {
+	  background-color: #fff;
+	  border-bottom: none;
+	}
+
+	/* Panel content area */
+	.tab-content {
+    display: none;
+	  margin-top: 10px;
+	  font-size: 18px;
+	  padding: 10px;
+	}
+  .tab-content.active {
+    display: block;
+  }
+
+	/* Map container styling */
+	#map {
+	  flex-grow: 1;
+	  height: 100%;
+	}
+    label {
+
+display: block;
+
+margin-top: 10px;
+
+font-weight: bold;
+
+}
+
+input, textarea, button {
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Nav Bar */
+* {
+                box-sizing: border-box;
+            }
+
+            .navbar {
+                width: 100%;
+                background-color: #cf8764;
+                overflow: auto;
+            }
+
+            .navbar a {
+                float: left;
+                padding: 12px;
+                color: black;
+                width: 25%;
+                text-align: center;
+                text-decoration: none;
+                font-size: 17px;
+            }
+
+            .navbar a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+
+            .navbar a.active {
+                background-color: #04aa6d;
+                color: white;
+            }
+
+            @media screen and (max-width: 500px) {
+                .navbar a {
+                    float: none;
+                    display: block;
+                    width: 100%;
+                    text-align: left;
+                }
+            }
+  </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Tasty Track</h1>
+    </header>
+
+    <div class="navbar">
+        <a class="" href="home.html">Home</a>
+        <!--<a onclick="openNav()">Saved</a>-->
+        <a href="SearchAndSave.html">View Resturants</a>
+        <a href="AboutUs.html">About Us</a>
+        <a href="profile">Profile</a>
+    </div>
+
+  <!-- Main content area with left panel and map -->
+  <div class="content">
+	<div class="left-panel">
+	  <!-- Tabs -->
+	  <div class="tabs">
+		<div class="tab active" id="addTab" onclick="switchTab('add')">Add Restaurant</div>
+        <div class="tab" id="savedTab" onclick="switchTab('saved')">My Restaurants</div>
+	  </div>
+
+	  <!-- Content area -->
+	  <div class="tab-content active" id="addContent">
+		<!--ADD TAB CODE HERE-->
+		<form id="restaurant-form">
+			<label for="resName">Resturant Name:</label>
+			<input type="text" id="resName" required>
+			
+			<label for="city">City:</label>
+			<input type="text" id="city" required>
+	
+			<label for="state">State:</label>
+			<input type="text" id="state" required>
+	
+			<label for="rating">Rating:</label>
+			<textarea id="rating" required></textarea>
+	
+			<button type="button" onclick="findLocation()">Find</button>
+            <button type="button" onclick="saveRestaurant()">Save</button>
+		</form>
+	  </div>
+
+      <!--TAB CONENT FOR SAVED-->
+	  <div class="tab-content" id="savedContent">
+		<button onclick="showSavedResturants()">My Restaurants</button>
+	  </div>
+	</div>
+
+      <!-- Google Maps API -->
+	<div id="map"></div>
+  </div>
+
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-Ep4rBtq2tecPJgVqHYS9vt6vKwFLFuE&callback=initMap" async defer></script>
+  <script src="getData.js"></script> <!--JSON data-->
+  <script src="putData.js"></script>
+  <script>
+	let map;
+
+	// Initialize Google Map
+	function initMap() {
+	  map = new google.maps.Map(document.getElementById('map'), {
+		center: { lat: 39.9055, lng: -75.3880 }, // Initial center coordinates
+		zoom: 12
+	  });
+      geocoder = new google.maps.Geocoder();
+	}
+
+    // Tab switching function
+
+    function switchTab(tab) {
+        document.getElementById('addTab').classList.toggle('active', tab === 'add');
+        document.getElementById('savedTab').classList.toggle('active', tab === 'saved');
+        document.getElementById('addContent').classList.toggle('active', tab === 'add');
+        document.getElementById('savedContent').classList.toggle('active', tab === 'saved');
+    }
+
+    // Geocode location and place marker on map
+    function findLocation() {
+        const city = document.getElementById('city').value;
+        const state = document.getElementById('state').value;
+        const address = `${city}, ${state}`;
+
+    geocoder.geocode({ address: address }, (results, status) => {
+          if (status === 'OK') {
+            const location = results[0].geometry.location;
+            map.setCenter(location);
+            map.setZoom(14);
+            const marker = new google.maps.Marker({
+                      position: location,
+                      map: map,
+                      title: document.getElementById('resName').value
+            });
+
+            markers.push(marker);
+          } else {
+            alert('Could not find location: ' + status);
+          }
+        });
+
+    }
+
+    //Save resturants to JSONbin
+    async function saveRestaurant() {
+        const resName = document.getElementById('resName').value;
+        const city = document.getElementById('city').value;
+        const state = document.getElementById('state').value;
+        const rating = document.getElementById('rating').value;
+
+        const location = markers.length > 0 ? markers[markers.length - 1].getPosition() : null;
+
+        if (!location) {
+          alert("Please find the location on the map first.");
+          return;
+
+        }
+
+
+    const restaurant = {
+          resName: resName,
+          city: city,
+          state: state,
+          rating: rating,
+          location: { lat: location.lat(), lng: location.lng() }
+
+        };
+
+
+
+    try {
+          let data = await getData();
+          data = JSON.parse(data);
+          // Assuming single user for simplicity; replace with login-based identification in production
+          const user = data.find(u => u.userName === "Name");
+
+          if (user) {
+            user.restaurants.push(restaurant);
+          } else {
+            data.push({ 
+                      userName: "Name", 
+                      passWord: "123",
+                      myPlaces: [restaurant]
+            });
+          }
+          await putJSONData(data);
+          alert("Restaurant saved successfully!");
+        } catch (error) {
+            console.error("Error saving restaurant:", error);
+            alert("Failed to save the restaurant.");
+        }
+
+        }
+
+        async function showSavedRestaurants() {
+            clearMarkers();
+        try {
+            const dataString = await getData(); // Get JSON as a string
+            alert(dataString);
+            const data = JSON.parse(dataString); // Parse the string into an object
+
+            // Ensure the data is an array and look for the specific user
+            const users = Array.isArray(data) ? data : [];
+            const user = users.find(u => u.userName === "Name");
+
+            if (user && Array.isArray(user.restaurants)) {
+                        // Add markers directly using stored coordinates
+                        user.restaurants.forEach((restaurant) => {
+                                    addMyMarker({
+                                                position: {
+                                                            lat: restaurant.location.lat,
+                                                            lng: restaurant.location.lng
+                                                },
+                                                name: restaurant.resName,
+                                                rating: restaurant.rating
+                                    });
+                        });
+            } else {
+                alert("No saved restaurants found for this user.");
+            }
+
+        } catch (error) {
+            console.error("Error loading saved restaurants:", error);
+            alert("Failed to load saved restaurants.");
+        }
+
+        }
+
+    // Function to add a marker with an infowindow to the map
+    function addMyMarker({ position, name, rating }) {
+    const marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: name
+    });
+
+    // Create infowindow content with restaurant name and rating
+    const infowindowContent = `
+            <div>
+                        <h3>${name}</h3>
+                        <p>${rating}</p>
+            </div>
+    `;
+
+    const infowindow = new google.maps.InfoWindow({
+            content: infowindowContent
+    });
+
+    // Show infowindow on marker click
+    marker.addListener("click", () => {
+            infowindow.open(map, marker);
+    });
+
+    markers.push(marker); // Store marker for later clearing if needed
+    }
+
+    // Helper to add a marker on the map 
+    function addMarker(restaurant) {
+        const marker = new google.maps.Marker({
+        position: restaurant.location,
+        map: map,
+        title: restaurant.resName
+    });
+
+
+    const infoWindow = new google.maps.InfoWindow({
+    content: `<strong>${restaurant.resName}</strong><br>${restaurant.city}, ${restaurant.state}<br>rating: ${restaurant.rating}`
+    });
+
+    marker.addListener('click', () => infoWindow.open(map, marker));
+    markers.push(marker);
+
+    }
+
+    // Clear all markers from the map
+    function clearMarkers() {
+        markers.forEach(marker => marker.setMap(null));
+        markers = [];
+    }
+</script>
+</body>
+</html>
