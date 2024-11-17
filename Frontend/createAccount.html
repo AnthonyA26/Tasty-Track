@@ -50,18 +50,15 @@
 <body>
   <h1>Create an Account for Tasty Track!</h1>
   <form id="jsonForm">
-	<label for="Username">Username:</label>
-	<input type="text" id="userName" name="Username"><br>
+	<label for="userName">Username:</label>
+	<input type="text" id="userName" name="userName"><br>
 
-	<label for="Password">Password:</label>
-	<input type="text" id="passWord" name="Password"><br>
+	<label for="passWord">Password:</label>
+	<input type="text" id="passWord" name="passWord"><br>
 	  	
-	<label for="Email">Email:</label>
-	<input type="text" id="email" name="Email"><br>
+	<label for="email">Email:</label>
+	<input type="text" id="email" name="email"><br>
 	  	
-	<label for="foodPref">Restaurant Preference:</label>
-	<input type="text" id="foodPref" name="foodPref"><br>
-
 	<button type="button" onclick="submitData()">Submit</button>
   </form>
 
@@ -73,8 +70,10 @@
 	// Regular function declaration instead of an arrow function
 	function submitData() {
 	  const newData = {
-		"Username": document.getElementById('Username').value,
-		"Password": document.getElementById('Password').value,
+		"userName": document.getElementById('Username').value,
+		"passWord": document.getElementById('Password').value,
+		"email": document.getElementById('email').value,
+		"myPlaces": [], 
 	  };
 
 	  // Call putJSONData to append and update the JSON array
