@@ -65,8 +65,6 @@
       <div id="loginDisplay">
             <p></p>           
       </div>
-      <button hidden type="button" id="redirect" onclick="window.location.href='home.html'";></button>
-	<div id="response"></div>
 </div>
 
 
@@ -107,8 +105,7 @@ const login = async () => {
 
 		if (currentUser) {
 			document.getElementById('loginDisplay').innerHTML = `<h2>Welcome, ${currentUser.userName}</h2>`;
-                  document.getElementById('redirect').removeAttribute("hidden");
-                  document.getElementById('redirect').innerHTML = `<button>Redirect</button>`;
+			window.location.href="home.html";
 			sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
 		} else {
 			document.getElementById('loginDisplay').innerHTML = "Invalid last name or password.";
