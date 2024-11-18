@@ -214,7 +214,7 @@
 
         <div id="loginOrOutButtons">
             <button class="button loginButton" id="loginButton" onclick="window.location.href='login.html'";>Login</button>
-            <button hidden class="button logoutButton" id="logoutButton" onclick="window.location.href='home.html'";>Log Out</button>
+            <button hidden class="button logoutButton" id="logoutButton" onclick="logOut()">Log Out</button>
         </div>
 
         
@@ -285,6 +285,11 @@
 		console.error('Failed to save data:', responsePut.statusText);
 	  }
 	}
+
+	async function logOut() {
+	        sessionStorage.clear();
+	        window.location.href='home.html';
+    	}
 
         </script>    
     </body>    
