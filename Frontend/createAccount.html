@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasty Track - Account Creation</title>
+  <style>
+	body {
+		font-family: Arial, sans-serif;
+	}
+	.container {
+		width: 50%;
+		margin: auto;
+		padding: 20px;
+		border: 1px solid #ccc;
+		border-radius: 10px;
+		box-shadow: 0px 0px 10px #ccc;
+		margin-top: 50px;
+	}
+	.input-group {
+		margin: 10px 0;
+	}
+	label {
+		display: block;
+		margin-bottom: 5px;
+	}
+	input[type="text"], input[type="password"] {
+		width: 40%;
+		padding: 10px;
+		margin-bottom: 10px;
+		border-radius: 5px;
+		border: 1px solid #ccc;
+	}
+	button {
+		padding: 10px 20px;
+		background-color: #28a745;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+	button:hover {
+		background-color: #218838;
+	}
+	.log-jobs, .add-log-form {
+		margin-top: 20px;
+	}
+</style>
+</head>
+<body>
+  <h1>Create an Account for Tasty Track!</h1>
+  <form id="jsonForm">
+	<label for="userName">Username:</label>
+	<input type="text" id="userName" name="userName"><br>
+
+	<label for="passWord">Password:</label>
+	<input type="text" id="passWord" name="passWord"><br>
+	  	
+	<button type="button" onclick="signup()">Submit</button>
+  </form>
+
+  <div id="response"></div>
+
+  <script src="getData2.js"></script>
+  <script src="putData2.js"></script>
+  <script>
+  async function signup() {
+	const userName = document.getElementById("userName").value;
+	const passWord = document.getElementById("passWord").value;
+
+	const newUser = {
+	  userName,
+	  passWord,
+	  myPlaces: []
+	};
+
+	try {
+	  const data = await getData();
+	  const users = JSON.parse(data);
+
+	  users.push(newUser);
+
+	  const success = await putData(users);
+	  if (success) {
+		alert("Account created successfully!");
+		window.location.href = "login.html"; // Redirect to login page
+	  } else {
+		alert("Failed to create account. Please try again.");
+	  }
+	} catch (error) {
+	  console.error("Error during signup:", error);
+	}
+  }
+  
+  function redirectToHome() {
+	window.location.href = "index.html";
+  }
+</script>
+</body>
+</html>
